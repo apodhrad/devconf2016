@@ -1,0 +1,150 @@
+\documentclass{beamer}
+\usetheme{AnnArbor}
+\usecolortheme{beaver}
+\usepackage{tikz}
+\usepackage{color}
+\usepackage{listings}
+
+\lstset{language=Java,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\footnotesize\color{blue}\ttfamily,
+  commentstyle=\footnotesize\color{gray}\ttfamily,
+}
+
+\definecolor{darkred}{rgb}{0.8,0,0}
+
+\setbeamercolor{title}{fg=white,bg=darkred!80!black}
+\setbeamercolor{frametitle}{fg=darkred!80!black,bg=white}
+%\setbeamercolor{section in head/foot}{fg=green,bg=yellow}
+%\setbeamercolor{subsection in head/foot}{bg=white}
+\begin{document}
+\title{Advanced Java Debugging}   
+\author{Andrej Podhradsky}
+\date{\today} 
+%\logo{\includegraphics[height=1cm]{reddeer_logo.png}\vspace{220pt}}
+
+\addtobeamertemplate{title page}{\center{\includegraphics[height=1cm]{devconf_logo.png}}}{}
+
+\addtobeamertemplate{frametitle}{}{
+\begin{tikzpicture}[remember picture,overlay]
+\node[anchor=north east,yshift=-8pt] at (current page.north east) {\includegraphics[height=1cm]{devconf_logo.png}};
+\end{tikzpicture}}
+
+\frame{\titlepage} 
+
+\frame{\frametitle{Table of contents}\tableofcontents} 
+
+\section{Introduction}
+\subsection{For who and why}
+\begin{frame}[fragile]
+\frametitle{For who and why}
+\begin{itemize}
+\item for beginners, students and anyone with a lack od debugging experiences
+\item debugging is underestimated
+\begin{lstlisting}
+new PushButton("OK").click();
+new LabeledText("Name").setText("test-name");
+new TextEditor("Demo.java").save();
+\end{lstlisting}
+\item How it works?
+\begin{itemize}
+\item Each component is found in the constructor
+\item The appropriate method (or event) is called in the main thread
+\item Waiting until the operation has finished
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{Example - part 1}
+\begin{frame}[fragile]
+\frametitle{How would you debug this?}
+\begin{lstlisting}
+for (c = 0; c < ( n - 1 ); c++) {
+  for (d = 0; d < n - c - 1; d++) {
+    if (array[d] > array[d+1]) {
+      swap       = array[d];
+      array[d]   = array[d+1];
+      array[d+1] = swap;
+    }
+  }
+}
+\end{lstlisting}
+\end{frame}
+
+
+\subsection{Example - part 2}
+\begin{frame}[fragile]
+\frametitle{Using sysout}
+\begin{lstlisting}
+for (c = 0; c < ( n - 1 ); c++) {
+  for (d = 0; d < n - c - 1; d++) {
+    if (array[d] > array[d+1]) {
+      swap       = array[d];
+      System.out.println("LOG swap = " + swap);
+      array[d]   = array[d+1];
+      System.out.println("LOG array[d] = " + array[d]);
+      array[d+1] = swap;
+      System.out.println("LOG array[d+1] = " + array[d+1]);
+    }
+  }
+}
+\end{lstlisting}
+\end{frame}
+
+\section{Test Execution}
+
+\subsection{Prerequisite}
+\begin{frame}[fragile]
+\frametitle{Prerequisite}
+\begin{itemize}
+\item Download RedDeer IDE 0.6.0\\\url{http://download.eng.brq.redhat.com/scratch/apodhrad}
+\item Checkout RedDeer quickstart\\\url{https://github.com/apodhrad/reddeer-quickstart}
+\item Display server, e.g. vnc\\We need isolated display since other events can affect our tests
+\begin{lstlisting}[language=sh]
+sudo yum install tigervnc tigervnc-server
+vncpasswd    // set password
+vncserver :2 -geometry 1500x900
+vncviewer :2
+\end{lstlisting}
+\item Run the quickstart
+\begin{lstlisting}[language=sh]
+DISPLAY=:2 mvn clean verify
+\end{lstlisting}
+\item Each test class must be annotated with
+\begin{lstlisting}[language=Java]
+@RunWith(RedDeerSuite.class)
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+
+\subsection{Debugging}
+\begin{frame}[fragile]
+\frametitle{Debugging}
+\begin{itemize}
+\item You can debug RedDeer tests as any other JUnit tests
+\item Remote debugging (on localhost, jenkins, ...)
+\begin{lstlisting}[language=sh]
+DISPLAY=:2 mvn clean verify -DdebugPort=8001
+\end{lstlisting}
+Then, in IDE do as follows
+\begin{enumerate}
+\item Select Run \textgreater Debug Configurations...
+\item Create new Remote Java Application
+\item Select Standard (Socket Attach) as connection type
+\item Set package, host and port (8001)
+\end{enumerate}
+\end{itemize}
+\end{frame}
+
+
+
+\section{Learning Materials}
+\begin{frame}[fragile]
+\frametitle{Learning Materials}
+\begin{itemize}
+\item Effective Java Debugging with Eclipse\\\url{http://eclipsesource.com/blogs/2013/01/08/effective-java-debugging-with-eclipse}
+\item Java Debugging with Eclipse - Tutorial\\url{http://www.vogella.com/tutorials/EclipseDebugging/article.html}
+\end{itemize}
+\end{frame}
+
+\end{document}
