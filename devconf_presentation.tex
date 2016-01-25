@@ -34,28 +34,19 @@
 
 \frame{\frametitle{Table of contents}\tableofcontents} 
 
-\section{Introduction}
+\section{Motivation}
+
 \subsection{For who and why}
 \begin{frame}[fragile]
 \frametitle{For who and why}
 \begin{itemize}
-\item for beginners, students and anyone with a lack od debugging experiences
+\item for beginners, students and anyone with the lack of debugging experiences
 \item debugging is underestimated
-\begin{lstlisting}
-new PushButton("OK").click();
-new LabeledText("Name").setText("test-name");
-new TextEditor("Demo.java").save();
-\end{lstlisting}
-\item How it works?
-\begin{itemize}
-\item Each component is found in the constructor
-\item The appropriate method (or event) is called in the main thread
-\item Waiting until the operation has finished
-\end{itemize}
+\item why is debugging important ...
 \end{itemize}
 \end{frame}
 
-\subsection{Example - part 1}
+\subsection{Example}
 \begin{frame}[fragile]
 \frametitle{How would you debug this?}
 \begin{lstlisting}
@@ -72,7 +63,7 @@ for (c = 0; c < ( n - 1 ); c++) {
 \end{frame}
 
 
-\subsection{Example - part 2}
+\subsection{First debug}
 \begin{frame}[fragile]
 \frametitle{Using sysout}
 \begin{lstlisting}
@@ -91,52 +82,76 @@ for (c = 0; c < ( n - 1 ); c++) {
 \end{lstlisting}
 \end{frame}
 
-\section{Test Execution}
-
-\subsection{Prerequisite}
+\subsection{MyCoolApp}
 \begin{frame}[fragile]
-\frametitle{Prerequisite}
+\frametitle{MyCoolApp}
 \begin{itemize}
-\item Download RedDeer IDE 0.6.0\\\url{http://download.eng.brq.redhat.com/scratch/apodhrad}
-\item Checkout RedDeer quickstart\\\url{https://github.com/apodhrad/reddeer-quickstart}
-\item Display server, e.g. vnc\\We need isolated display since other events can affect our tests
-\begin{lstlisting}[language=sh]
-sudo yum install tigervnc tigervnc-server
-vncpasswd    // set password
-vncserver :2 -geometry 1500x900
-vncviewer :2
-\end{lstlisting}
-\item Run the quickstart
-\begin{lstlisting}[language=sh]
-DISPLAY=:2 mvn clean verify
-\end{lstlisting}
-\item Each test class must be annotated with
-\begin{lstlisting}[language=Java]
-@RunWith(RedDeerSuite.class)
-\end{lstlisting}
+\item In this workshop we will use MyCoolApp
+\item This app is ...
+\item and it contains lots of bugs
+\item We will dubug it using Eclipse IDE
+\item ... and try to fix it
 \end{itemize}
 \end{frame}
 
-\subsection{Debugging}
+\section{Prepare your environment}
+
+\subsection{Prepare your environment}
 \begin{frame}[fragile]
-\frametitle{Debugging}
+\frametitle{Prepare your environment}
 \begin{itemize}
-\item You can debug RedDeer tests as any other JUnit tests
-\item Remote debugging (on localhost, jenkins, ...)
-\begin{lstlisting}[language=sh]
-DISPLAY=:2 mvn clean verify -DdebugPort=8001
-\end{lstlisting}
-Then, in IDE do as follows
-\begin{enumerate}
-\item Select Run \textgreater Debug Configurations...
-\item Create new Remote Java Application
-\item Select Standard (Socket Attach) as connection type
-\item Set package, host and port (8001)
-\end{enumerate}
+\item JDK 6+
+  \begin{lstlisting}
+    java -version
+  \end{lstlisting}
+\item Maven 3.0.5+
+  \begin{lstlisting}
+    mvn -v
+  \end{lstlisting}
+\item Eclipse IDE for Java (or JavaEE) Developers
+\item Import MyCoolAp as a maven project and run tests
+\end{itemize}
+\end{frame}
+
+\section{Debugging}
+
+\subsection{Breakpoints and variables}
+\begin{frame}[fragile]
+\frametitle{Breakpoints and variables}
+\begin{itemize}
+\item in a code
+\item on an attribute
+\item on a method
+\item on an exception
+\item view of variables
 \end{itemize}
 \end{frame}
 
 
+\subsection{Conditional breakpoints}
+\begin{frame}[fragile]
+\frametitle{Conditional breakpoints}
+\end{frame}
+
+\subsection{Breakpoints and variables}
+\begin{frame}[fragile]
+\frametitle{Breakpoints and variables}
+\end{frame}
+
+\subsection{Display and watch the code}
+\begin{frame}[fragile]
+\frametitle{Display and watch the code}
+\end{frame}
+
+\subsection{Repeat the code}
+\begin{frame}[fragile]
+\frametitle{Repeat the code}
+\end{frame}
+
+\subsection{Remote debugging}
+\begin{frame}[fragile]
+\frametitle{Remote debugging}
+\end{frame}
 
 \section{Learning Materials}
 \begin{frame}[fragile]
