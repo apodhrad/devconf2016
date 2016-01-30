@@ -32,7 +32,7 @@
 
 \frame{\titlepage} 
 
-\frame{\frametitle{Table of contents}\tableofcontents} 
+% \frame{\frametitle{Table of contents}\tableofcontents} 
 
 \section{Motivation}
 
@@ -40,9 +40,13 @@
 \begin{frame}[fragile]
 \frametitle{For who and why}
 \begin{itemize}
-\item for beginners, students and anyone with the lack of debugging experiences
-\item debugging is underestimated
-\item why is debugging important ...
+\item for anyone with Java knowledge
+\item for anyone the lack of debugging experiences
+\end{itemize}
+\begin{itemize}
+\item many complicated bugs
+\item before you fix it you have to find it
+\item usually time consuming
 \end{itemize}
 \end{frame}
 
@@ -82,18 +86,6 @@ for (c = 0; c < ( n - 1 ); c++) {
 \end{lstlisting}
 \end{frame}
 
-\subsection{MyCoolApp}
-\begin{frame}[fragile]
-\frametitle{MyCoolApp}
-\begin{itemize}
-\item In this workshop we will use MyCoolApp
-\item This app is ...
-\item and it contains lots of bugs
-\item We will dubug it using Eclipse IDE
-\item ... and try to fix it
-\end{itemize}
-\end{frame}
-
 \section{Prepare your environment}
 
 \subsection{Prepare your environment}
@@ -109,9 +101,22 @@ for (c = 0; c < ( n - 1 ); c++) {
     mvn -v
   \end{lstlisting}
 \item Eclipse IDE for Java (or JavaEE) Developers
+\end{itemize}
+\end{frame}
+
+\subsection{MyCoolApp}
+\begin{frame}[fragile]
+\frametitle{MyCoolApp}
+\begin{itemize}
+\item In this workshop we will use MyCoolApp
+\item This app is ...
+\item and it contains lots of bugs
+\item We will dubug it using Eclipse IDE
+\item ... and try to fix it
 \item Import MyCoolAp as a maven project and run tests
 \end{itemize}
 \end{frame}
+
 
 \section{Debugging}
 
@@ -126,7 +131,6 @@ for (c = 0; c < ( n - 1 ); c++) {
 \item view of variables
 \end{itemize}
 \end{frame}
-
 
 \subsection{Conditional breakpoints}
 \begin{frame}[fragile]
@@ -146,6 +150,18 @@ for (c = 0; c < ( n - 1 ); c++) {
 \subsection{Repeat the code}
 \begin{frame}[fragile]
 \frametitle{Repeat the code}
+\begin{itemize}
+\item repeat vs go back
+\item you can jump only to a place in stack trace
+\item (the stack of functions that were called up to that point)
+\end{itemize}
+\begin{lstlisting}
+Exception in thread "main" java.lang.RuntimeException
+    at test.stack.trace.SomeClass.methodC(SomeClass.java:18)
+    at test.stack.trace.SomeClass.methodB(SomeClass.java:13)
+    at test.stack.trace.SomeClass.methodA(SomeClass.java:9)
+    at test.stack.trace.SomeClass.main(SomeClass.java:27)
+\end{lstlisting}
 \end{frame}
 
 \subsection{Remote debugging}
