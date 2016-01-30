@@ -3,16 +3,15 @@ package cz.devconf.workshop.friendbook;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 
 public class FriendBook {
 
-	private Collection<User> users;
-	private Collection<Friendship> friendships;
+	public static final FriendBook INSTANCE = new FriendBook();
 
-	public FriendBook() {
+	private Collection<User> users;
+
+	private FriendBook() {
 		this.users = new ArrayList<User>();
-		this.friendships = new HashSet<Friendship>();
 	}
 
 	public void registerUser(User user) {
@@ -20,6 +19,9 @@ public class FriendBook {
 	}
 
 	public void removeUser(User user) {
+		for (User u : this.users) {
+			u.rejectFriend(user);
+		}
 		this.users.remove(user);
 	}
 
@@ -36,25 +38,8 @@ public class FriendBook {
 		return null;
 	}
 
-	public void addFriend(User user1, User user2) {
-		this.friendships.add(new Friendship(user1.getId(), user2.getId()));
-	}
-
-	public Collection<User> getFriends(User user) {
-		Collection<User> friends = new HashSet<User>();
-		for (Friendship friendship : this.friendships) {
-			if (friendship.getUserId1().equals(user.getId())) {
-				friends.add(findUser(friendship.getUserId2()));
-			}
-			if (friendship.getUserId2().equals(user.getId())) {
-				friends.add(findUser(friendship.getUserId1()));
-			}
-		}
-		return Collections.unmodifiableCollection(friends);
-	}
-	
-	public Collection<Friendship> getFriendships() {
-		return Collections.unmodifiableCollection(this.friendships);
+	public void clean() {
+		this.users.clear();
 	}
 
 	public void loadUsers() {
