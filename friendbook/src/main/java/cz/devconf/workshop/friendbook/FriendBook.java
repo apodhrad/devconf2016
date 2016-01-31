@@ -14,7 +14,7 @@ import java.util.List;
 public class FriendBook {
 
 	public static final FriendBook INSTANCE = new FriendBook();
-	private static final int ID = 0;
+	private static final int NICKNAME = 0;
 	private static final int NAME = 1;
 	private static final int SURNAME = 2;
 	private static final String DELIMETER = ";";
@@ -26,11 +26,8 @@ public class FriendBook {
 	}
 
 	public void registerUser(User user) {
-		if (user.getId() == null) {
-			throw new IllegalArgumentException("Cannot register a user without ID");
-		}
-		if (findUser(user.getId()) != null) {
-			throw new FriendBookException("User with id '" + user.getId() + "' already exists");
+		if (findUser(user.getNickname()) != null) {
+			throw new FriendBookException("User with nickname '" + user.getNickname() + "' already exists");
 		}
 		this.users.add(user);
 	}
@@ -46,9 +43,9 @@ public class FriendBook {
 		return Collections.unmodifiableCollection(this.users);
 	}
 
-	public User findUser(String id) {
+	public User findUser(String nickname) {
 		for (User user : this.users) {
-			if (user.getId().equals(id)) {
+			if (user.getNickname().equals(nickname)) {
 				return user;
 			}
 		}
@@ -67,10 +64,11 @@ public class FriendBook {
 			String line;
 			while ((line = in.readLine()) != null) {
 				String[] data = line.split(DELIMETER);
-				if (data.length < 3) {
-					throw new FriendBookException("User data must consists of at leats 3 parts");
+				if (data.length < 1) {
+					throw new FriendBookException("User data must conatain at least one attribute");
 				}
-				registerUser(new User(getAttribute(data, ID), getAttribute(data, NAME), getAttribute(data, SURNAME)));
+				registerUser(
+						new User(getAttribute(data, NICKNAME), getAttribute(data, NAME), getAttribute(data, SURNAME)));
 				lines.add(line);
 			}
 		} finally {
@@ -80,7 +78,7 @@ public class FriendBook {
 		}
 		for (String line : lines) {
 			String[] data = line.split(";");
-			User user = findUser(getAttribute(data, ID));
+			User user = findUser(getAttribute(data, NICKNAME));
 			for (int i = 3; i < data.length; i++) {
 				User friend = findUser(getAttribute(data, i));
 				user.addFriend(friend);
@@ -96,12 +94,12 @@ public class FriendBook {
 			for (User user : this.users) {
 				Collection<User> friends = user.getFriends();
 				String[] data = new String[3 + friends.size()];
-				setAttribute(data, ID, user.getId());
+				setAttribute(data, NICKNAME, user.getNickname());
 				setAttribute(data, NAME, user.getName());
 				setAttribute(data, SURNAME, user.getSurname());
 				int i = 3;
 				for (User friend : friends) {
-					setAttribute(data, i, friend.getId());
+					setAttribute(data, i, friend.getNickname());
 				}
 				out.write(arrayToString(data, DELIMETER));
 				out.newLine();
@@ -115,6 +113,9 @@ public class FriendBook {
 	}
 
 	private String getAttribute(String[] data, int index) {
+		if (index >= data.length) {
+			return null;
+		}
 		String attribute = data[index].trim();
 		if (attribute.length() == 0) {
 			return null;

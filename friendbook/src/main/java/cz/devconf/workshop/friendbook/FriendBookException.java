@@ -8,8 +8,4 @@ public class FriendBookException extends RuntimeException {
 		super(message);
 	}
 
-	public FriendBookException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
 }

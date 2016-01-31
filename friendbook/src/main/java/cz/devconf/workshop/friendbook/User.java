@@ -8,29 +8,32 @@ import java.util.Map;
 
 public class User {
 
-	private String id;
+	private String nickname;
 	private String name;
 	private String surname;
-	// Map<UserId, FriendshipState>
+	// Map<nickname, FriendshipState>
 	private Map<String, FriendshipState> friends;
 
-	public User(String id) {
-		this(id, null, null);
+	public User(String nickname) {
+		this(nickname, null, null);
 	}
 
-	public User(String id, String name, String surname) {
-		this.id = id;
+	public User(String nickname, String name, String surname) {
+		if (nickname == null) {
+			throw new IllegalArgumentException("User must have a nickname");
+		}
+		this.nickname = nickname;
 		this.name = name;
 		this.surname = surname;
 		this.friends = new HashMap<String, FriendshipState>();
 	}
 
-	public String getId() {
-		return id;
+	public String getNickname() {
+		return this.nickname;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -38,7 +41,7 @@ public class User {
 	}
 
 	public String getSurname() {
-		return surname;
+		return this.surname;
 	}
 
 	public void setSurname(String surname) {
@@ -46,22 +49,23 @@ public class User {
 	}
 
 	public void addFriend(User user) {
-		this.friends.put(user.getId(), FriendshipState.PROPOSED);
-		user.friends.put(this.getId(), FriendshipState.REQUESTED);
+		this.friends.put(user.getNickname(), FriendshipState.PROPOSED);
+		user.friends.put(this.getNickname(), FriendshipState.REQUESTED);
 	}
 
 	public void confirmFriend(User user) {
-		if (FriendshipState.REQUESTED.equals(this.friends.get(user.getId()))) {
-			this.friends.put(user.getId(), FriendshipState.CONFIRMED);
-			user.friends.put(this.getId(), FriendshipState.CONFIRMED);
+		if (FriendshipState.REQUESTED.equals(this.friends.get(user.getNickname()))) {
+			this.friends.put(user.getNickname(), FriendshipState.CONFIRMED);
+			user.friends.put(this.getNickname(), FriendshipState.CONFIRMED);
 		} else {
-			throw new FriendBookException("Cannot confirm a friendship with a user who didn't request the friendship");
+			throw new IllegalStateException(
+					"Cannot confirm a friendship with a user who didn't request the friendship");
 		}
 	}
 
 	public void rejectFriend(User user) {
-		this.friends.remove(user.getId());
-		user.friends.remove(this.getId());
+		this.friends.remove(user.getNickname());
+		user.friends.remove(this.getNickname());
 	}
 
 	public Collection<User> getFriends() {
@@ -92,7 +96,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id = " + id + ", name=" + name + ", surname=" + surname + "]";
+		return "User [nickname = " + nickname + ", name = " + name + ", surname = " + surname + "]";
 	}
 
 	public enum FriendshipState {

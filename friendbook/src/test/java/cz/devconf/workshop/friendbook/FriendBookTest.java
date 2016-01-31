@@ -34,6 +34,14 @@ public class FriendBookTest {
 		Assert.assertEquals(JOHN_DOE.getName(), user.getName());
 		Assert.assertEquals(JOHN_DOE.getSurname(), user.getSurname());
 		Assert.assertEquals(JOHN_DOE, user);
+
+		Exception expectedException = null;
+		try {
+			friendBook.registerUser(JOHN_DOE);
+		} catch (FriendBookException fbe) {
+			expectedException = fbe;
+		}
+		Assert.assertNotNull(expectedException);
 	}
 
 	@Test
@@ -80,13 +88,14 @@ public class FriendBookTest {
 	public void loadTest() throws IOException {
 		File file = new File("src/test/resources/friendbook.csv");
 		friendBook.load(file);
-		User user1 = friendBook.findUser(JOHN_DOE.getId());
+		Assert.assertEquals(4, friendBook.getUsers().size());
+		User user1 = friendBook.findUser(JOHN_DOE.getNickname());
 		Assert.assertNotNull(user1);
-		User user2 = friendBook.findUser(PAUL_HAPPY.getId());
+		User user2 = friendBook.findUser(PAUL_HAPPY.getNickname());
 		Assert.assertNotNull(user2);
-		User user3 = friendBook.findUser(SUSAN.getId());
+		User user3 = friendBook.findUser(SUSAN.getNickname());
 		Assert.assertNotNull(user3);
-		User user4 = friendBook.findUser(ADAM_SMILE.getId());
+		User user4 = friendBook.findUser(ADAM_SMILE.getNickname());
 		Assert.assertNull(user4);
 
 		Assert.assertTrue(user1.hasFriend(user2));
