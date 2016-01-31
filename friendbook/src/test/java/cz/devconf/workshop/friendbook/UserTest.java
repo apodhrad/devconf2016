@@ -1,9 +1,5 @@
 package cz.devconf.workshop.friendbook;
 
-import static cz.devconf.workshop.friendbook.util.Users.JOHN_DOE;
-import static cz.devconf.workshop.friendbook.util.Users.PAUL_HAPPY;
-import static cz.devconf.workshop.friendbook.util.Users.SUSAN;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,11 +10,19 @@ public class UserTest {
 
 	private FriendBook friendBook = FriendBook.INSTANCE;
 
+	private User johnDoe;
+	private User paulHappy;
+
 	@Before
 	public void cleanFriendBook() {
 		friendBook.clean();
-		JOHN_DOE.rejectFriend(PAUL_HAPPY);
-		JOHN_DOE.rejectFriend(SUSAN);
+
+		johnDoe = friendBook.registerUser("jdoe");
+		johnDoe.setName("John");
+		johnDoe.setSurname("Doe");
+		paulHappy = friendBook.registerUser("phappy");
+		paulHappy.setName("Paul");
+		paulHappy.setSurname("Happy");
 	}
 
 	@Test
@@ -80,44 +84,36 @@ public class UserTest {
 
 	@Test
 	public void addFriendTest() {
-		friendBook.registerUser(JOHN_DOE);
-		friendBook.registerUser(PAUL_HAPPY);
+		johnDoe.addFriend(paulHappy);
 
-		JOHN_DOE.addFriend(PAUL_HAPPY);
-
-		Assert.assertEquals(1, JOHN_DOE.getProposedFriends().size());
-		Assert.assertTrue(JOHN_DOE.getProposedFriends().contains(PAUL_HAPPY));
-		Assert.assertEquals(1, PAUL_HAPPY.getRequestedFriends().size());
-		Assert.assertTrue(PAUL_HAPPY.getRequestedFriends().contains(JOHN_DOE));
+		Assert.assertEquals(1, johnDoe.getProposedFriends().size());
+		Assert.assertTrue(johnDoe.getProposedFriends().contains(paulHappy));
+		Assert.assertEquals(1, paulHappy.getRequestedFriends().size());
+		Assert.assertTrue(paulHappy.getRequestedFriends().contains(johnDoe));
 	}
 
 	@Test
 	public void getFriendsTest() {
-		friendBook.registerUser(JOHN_DOE);
-		friendBook.registerUser(PAUL_HAPPY);
-		friendBook.registerUser(SUSAN);
+		User adamSmile = friendBook.registerUser("asmile");
 
-		JOHN_DOE.addFriend(PAUL_HAPPY);
-		JOHN_DOE.addFriend(SUSAN);
-		PAUL_HAPPY.confirmFriend(JOHN_DOE);
+		johnDoe.addFriend(paulHappy);
+		johnDoe.addFriend(adamSmile);
+		paulHappy.confirmFriend(johnDoe);
 
-		Assert.assertEquals(1, JOHN_DOE.getFriends().size());
-		Assert.assertTrue(JOHN_DOE.getFriends().contains(PAUL_HAPPY));
-		Assert.assertEquals(1, PAUL_HAPPY.getFriends().size());
-		Assert.assertTrue(PAUL_HAPPY.getFriends().contains(JOHN_DOE));
+		Assert.assertEquals(1, johnDoe.getFriends().size());
+		Assert.assertTrue(johnDoe.getFriends().contains(paulHappy));
+		Assert.assertEquals(1, paulHappy.getFriends().size());
+		Assert.assertTrue(paulHappy.getFriends().contains(johnDoe));
 
-		Assert.assertEquals(1, JOHN_DOE.getProposedFriends().size());
-		Assert.assertTrue(JOHN_DOE.getProposedFriends().contains(SUSAN));
+		Assert.assertEquals(1, johnDoe.getProposedFriends().size());
+		Assert.assertTrue(johnDoe.getProposedFriends().contains(adamSmile));
 	}
 
 	@Test
 	public void confirmTest() {
-		friendBook.registerUser(JOHN_DOE);
-		friendBook.registerUser(PAUL_HAPPY);
-
 		Exception expectedException = null;
 		try {
-			PAUL_HAPPY.confirmFriend(JOHN_DOE);
+			paulHappy.confirmFriend(johnDoe);
 		} catch (IllegalStateException ise) {
 			expectedException = ise;
 		}

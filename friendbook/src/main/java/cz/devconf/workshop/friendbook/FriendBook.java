@@ -25,11 +25,17 @@ public class FriendBook {
 		this.users = new ArrayList<User>();
 	}
 
-	public void registerUser(User user) {
-		if (findUser(user.getNickname()) != null) {
-			throw new FriendBookException("User with nickname '" + user.getNickname() + "' already exists");
+	public User registerUser(String nickname) {
+		return registerUser(nickname, null, null);
+	}
+
+	public User registerUser(String nickname, String name, String surname) {
+		if (findUser(nickname) != null) {
+			throw new FriendBookException("User with nickname '" + nickname + "' already exists");
 		}
+		User user = new User(nickname, name, surname);
 		this.users.add(user);
+		return user;
 	}
 
 	public void removeUser(User user) {
@@ -64,11 +70,10 @@ public class FriendBook {
 			String line;
 			while ((line = in.readLine()) != null) {
 				String[] data = line.split(DELIMETER);
-				if (data.length < 1) {
+				if (getAttribute(data, NICKNAME) == null) {
 					throw new FriendBookException("User data must conatain at least one attribute");
 				}
-				registerUser(
-						new User(getAttribute(data, NICKNAME), getAttribute(data, NAME), getAttribute(data, SURNAME)));
+				registerUser(getAttribute(data, NICKNAME), getAttribute(data, NAME), getAttribute(data, SURNAME));
 				lines.add(line);
 			}
 		} finally {
@@ -126,8 +131,9 @@ public class FriendBook {
 	private void setAttribute(String[] data, int index, String value) {
 		if (value == null) {
 			data[index] = "";
+		} else {
+			data[index] = value.trim();
 		}
-		data[index] = value.trim();
 	}
 
 	public String arrayToString(String[] array, String delimeter) {
