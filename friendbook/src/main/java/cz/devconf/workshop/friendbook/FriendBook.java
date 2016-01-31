@@ -1,12 +1,23 @@
 package cz.devconf.workshop.friendbook;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 public class FriendBook {
 
 	public static final FriendBook INSTANCE = new FriendBook();
+	private static final int ID = 0;
+	private static final int NAME = 1;
+	private static final int SURNAME = 2;
+	private static final String DELIMETER = ";";
 
 	private Collection<User> users;
 
@@ -15,6 +26,12 @@ public class FriendBook {
 	}
 
 	public void registerUser(User user) {
+		if (user.getId() == null) {
+			throw new IllegalArgumentException("Cannot register a user without ID");
+		}
+		if (findUser(user.getId()) != null) {
+			throw new FriendBookException("User with id '" + user.getId() + "' already exists");
+		}
 		this.users.add(user);
 	}
 
@@ -42,11 +59,82 @@ public class FriendBook {
 		this.users.clear();
 	}
 
-	public void loadUsers() {
-
+	public void load(File file) throws IOException {
+		BufferedReader in = null;
+		List<String> lines = new ArrayList<String>();
+		try {
+			in = new BufferedReader(new FileReader(file));
+			String line;
+			while ((line = in.readLine()) != null) {
+				String[] data = line.split(DELIMETER);
+				if (data.length < 3) {
+					throw new FriendBookException("User data must consists of at leats 3 parts");
+				}
+				registerUser(new User(getAttribute(data, ID), getAttribute(data, NAME), getAttribute(data, SURNAME)));
+				lines.add(line);
+			}
+		} finally {
+			if (in != null) {
+				in.close();
+			}
+		}
+		for (String line : lines) {
+			String[] data = line.split(";");
+			User user = findUser(getAttribute(data, ID));
+			for (int i = 3; i < data.length; i++) {
+				User friend = findUser(getAttribute(data, i));
+				user.addFriend(friend);
+				friend.confirmFriend(user);
+			}
+		}
 	}
 
-	public void saveUsers() {
+	public void save(File file) throws IOException {
+		BufferedWriter out = null;
+		try {
+			out = new BufferedWriter(new FileWriter(file));
+			for (User user : this.users) {
+				Collection<User> friends = user.getFriends();
+				String[] data = new String[3 + friends.size()];
+				setAttribute(data, ID, user.getId());
+				setAttribute(data, NAME, user.getName());
+				setAttribute(data, SURNAME, user.getSurname());
+				int i = 3;
+				for (User friend : friends) {
+					setAttribute(data, i, friend.getId());
+				}
+				out.write(arrayToString(data, DELIMETER));
+				out.newLine();
+			}
+			out.flush();
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
+	}
 
+	private String getAttribute(String[] data, int index) {
+		String attribute = data[index].trim();
+		if (attribute.length() == 0) {
+			return null;
+		}
+		return attribute;
+	}
+
+	private void setAttribute(String[] data, int index, String value) {
+		if (value == null) {
+			data[index] = "";
+		}
+		data[index] = value.trim();
+	}
+
+	public String arrayToString(String[] array, String delimeter) {
+		StringBuffer result = new StringBuffer();
+		for (int i = 0; i < array.length - 1; i++) {
+			result.append(array[i]).append(delimeter);
+		}
+		result.append(array[array.length - 1]);
+		return result.toString();
 	}
 }

@@ -86,6 +86,10 @@ public class User {
 		return Collections.unmodifiableCollection(friends);
 	}
 
+	public boolean hasFriend(User user) {
+		return getFriends().contains(user);
+	}
+
 	@Override
 	public String toString() {
 		return "User [id = " + id + ", name=" + name + ", surname=" + surname + "]";
