@@ -95,7 +95,7 @@ public class User {
 		return "User [id = " + id + ", name=" + name + ", surname=" + surname + "]";
 	}
 
-	private enum FriendshipState {
+	public enum FriendshipState {
 
 		PROPOSED, REQUESTED, CONFIRMED
 
