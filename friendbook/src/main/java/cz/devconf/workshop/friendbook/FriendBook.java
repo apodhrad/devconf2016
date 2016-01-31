@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class FriendBook {
@@ -22,7 +23,7 @@ public class FriendBook {
 	private Collection<User> users;
 
 	private FriendBook() {
-		this.users = new ArrayList<User>();
+		this.users = new HashSet<User>();
 	}
 
 	public User registerUser(String nickname) {

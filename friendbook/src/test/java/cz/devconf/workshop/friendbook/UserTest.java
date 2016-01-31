@@ -121,6 +121,16 @@ public class UserTest {
 	}
 
 	@Test
+	public void equalsTest() {
+		User user = new User("jdoe");
+		Assert.assertTrue(johnDoe.equals(user));
+		Assert.assertTrue(user.equals(johnDoe));
+		Assert.assertFalse(paulHappy.equals(user));
+		Assert.assertFalse(user.equals(paulHappy));
+		Assert.assertFalse(user.equals(friendBook));
+	}
+
+	@Test
 	public void friendshipStateTest() {
 		Assert.assertEquals(3, FriendshipState.values().length);
 		FriendshipState.valueOf("PROPOSED");

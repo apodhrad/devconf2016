@@ -99,6 +99,19 @@ public class User {
 		return "User [nickname = " + nickname + ", name = " + name + ", surname = " + surname + "]";
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof User) {
+			return ((User) obj).getNickname().equals(getNickname());
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return getNickname().hashCode();
+	}
+
 	public enum FriendshipState {
 
 		PROPOSED, REQUESTED, CONFIRMED

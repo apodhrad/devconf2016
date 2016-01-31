@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -47,9 +49,11 @@ public class FriendBookTest {
 	}
 
 	@Test
-	public void deleteUserTest() {
+	public void removeUserTest() {
 		friendBook.removeUser(johnDoe);
 		Assert.assertEquals(1, friendBook.getUsers().size());
+
+		paulHappy.setSurname("Sad");
 		friendBook.removeUser(paulHappy);
 		Assert.assertTrue(friendBook.getUsers().isEmpty());
 	}
@@ -156,18 +160,30 @@ public class FriendBookTest {
 		File file = new File("target/friendbook-tmp.csv");
 		friendBook.save(file);
 
+		Set<String> expectedLines = new HashSet<String>();
+		expectedLines.add("jdoe;John;Doe;phappy");
+		expectedLines.add("phappy;Paul;Happy;jdoe");
+		expectedLines.add("asmile;;");
+
+		Set<String> actualLines = new HashSet<String>();
+
 		BufferedReader in = null;
 		try {
 			in = new BufferedReader(new FileReader(file));
-			Assert.assertEquals("jdoe;John;Doe;phappy", in.readLine());
-			Assert.assertEquals("phappy;Paul;Happy;jdoe", in.readLine());
-			Assert.assertEquals("asmile;;", in.readLine());
-			Assert.assertNull(in.readLine());
+			String line;
+			while ((line = in.readLine()) != null) {
+				actualLines.add(line);
+			}
+			// Assert.assertTrue("jdoe;John;Doe;phappy", in.readLine());
+			// Assert.assertTrue("phappy;Paul;Happy;jdoe", in.readLine());
+			// Assert.assertEquals("asmile;;", in.readLine());
+			// Assert.assertNull(in.readLine());
 		} finally {
 			if (in != null) {
 				in.close();
 			}
 		}
+		Assert.assertEquals(expectedLines, actualLines);
 	}
 
 }
