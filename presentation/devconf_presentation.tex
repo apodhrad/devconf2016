@@ -20,15 +20,15 @@
 \begin{document}
 \title{Advanced Java Debugging}   
 \author{Andrej Podhradsky}
-\date{\today} 
+\date{February 8, 2016} 
 %\logo{\includegraphics[height=1cm]{reddeer_logo.png}\vspace{220pt}}
 
-\addtobeamertemplate{title page}{\center{\includegraphics[height=1cm]{devconf_logo.png}}}{}
+\addtobeamertemplate{title page}{\center{DevConf 2016}}{}
 
-\addtobeamertemplate{frametitle}{}{
-\begin{tikzpicture}[remember picture,overlay]
-\node[anchor=north east,yshift=-8pt] at (current page.north east) {\includegraphics[height=1cm]{devconf_logo.png}};
-\end{tikzpicture}}
+%\addtobeamertemplate{frametitle}{}{
+%\begin{tikzpicture}[remember picture,overlay]
+%\node[anchor=north east,yshift=-8pt] at (current page.north east) {DevConf 2016};
+%\end{tikzpicture}}
 
 \frame{\titlepage} 
 
@@ -36,54 +36,47 @@
 
 \section{Motivation}
 
-\subsection{For who and why}
+\subsection{What is debugging}
 \begin{frame}[fragile]
-\frametitle{For who and why}
+\frametitle{What is debugging}
 \begin{itemize}
-\item for anyone with Java knowledge
-\item for anyone the lack of debugging experiences
-\end{itemize}
-\begin{itemize}
-\item many complicated bugs
-\item before you fix it you have to find it
+\item process of finding and fixing bugs
 \item usually time consuming
-\end{itemize}
-\end{frame}
-
-\subsection{Example}
-\begin{frame}[fragile]
-\frametitle{How would you debug this?}
-\begin{lstlisting}
-for (c = 0; c < ( n - 1 ); c++) {
-  for (d = 0; d < n - c - 1; d++) {
-    if (array[d] > array[d+1]) {
-      swap       = array[d];
-      array[d]   = array[d+1];
-      array[d+1] = swap;
+\item how would you debug this? (npe at line 3)
+\vspace{0.2cm}
+\begin{lstlisting}[numbers=left]
+public User findUser(String nickname) {
+  for (User user : this.users) {
+    if (user.getNickname().equals(nickname)) {
+      return user;
     }
   }
+  return null;
 }
 \end{lstlisting}
+\end{itemize}
 \end{frame}
 
 
 \subsection{First debug}
 \begin{frame}[fragile]
 \frametitle{Using sysout}
-\begin{lstlisting}
-for (c = 0; c < ( n - 1 ); c++) {
-  for (d = 0; d < n - c - 1; d++) {
-    if (array[d] > array[d+1]) {
-      swap       = array[d];
-      System.out.println("LOG swap = " + swap);
-      array[d]   = array[d+1];
-      System.out.println("LOG array[d] = " + array[d]);
-      array[d+1] = swap;
-      System.out.println("LOG array[d+1] = " + array[d+1]);
+\begin{itemize}
+\item there are 2 possibilities for npe
+\vspace{0.2cm}
+\begin{lstlisting}[numbers=left]
+public User findUser(String nickname) {
+  for (User user : this.users) {
+    System.out.println("user=" + user);
+    System.out.println("nickname=" + user.getNickname());
+    if (user.getNickname().equals(nickname)) {
+      return user;
     }
   }
+  return null;
 }
 \end{lstlisting}
+\end{itemize}
 \end{frame}
 
 \section{Prepare your environment}
@@ -101,20 +94,22 @@ for (c = 0; c < ( n - 1 ); c++) {
     mvn -v
   \end{lstlisting}
 \item Eclipse IDE for Java (or JavaEE) Developers
+  \begin{lstlisting}
+    eclipse -data workspace
+  \end{lstlisting}
+\item FriendBook
+  \begin{lstlisting}
+    see next slides
+  \end{lstlisting}
 \end{itemize}
 \end{frame}
 
-\subsection{MyCoolApp}
+\subsection{FriendBook}
 \begin{frame}[fragile]
-\frametitle{MyCoolApp}
-\begin{itemize}
-\item In this workshop we will use MyCoolApp
-\item This app is ...
-\item and it contains lots of bugs
-\item We will dubug it using Eclipse IDE
-\item ... and try to fix it
-\item Import MyCoolAp as a maven project and run tests
-\end{itemize}
+\frametitle{FriendBook}
+\begin{center}
+  \includegraphics[width=11cm]{friendbook.png}
+\end{center}  
 \end{frame}
 
 
