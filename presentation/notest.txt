@@ -1,0 +1,11 @@
+Logical structure
+- HashMap User.friend
+
+Conditional breakpoint
+- save (with one id = "") and load (id will be null)
+
+Exceptional breakpoint
+- wrong hashcode => immutable objects
+
+Display
+- NPE
