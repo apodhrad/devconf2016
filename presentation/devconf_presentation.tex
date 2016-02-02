@@ -115,61 +115,87 @@ public User findUser(String nickname) {
 
 \section{Debugging}
 
-\subsection{Breakpoints and variables}
+\subsection{Pause and watch}
 \begin{frame}[fragile]
-\frametitle{Breakpoints and variables}
+\frametitle{Pause and watch}
+Breakpoints can be set
 \begin{itemize}
-\item in a code
+\item on a line
 \item on an attribute
 \item on a method
+\item on a class
 \item on an exception
-\item view of variables
 \end{itemize}
-\end{frame}
-
-\subsection{Conditional breakpoints}
-\begin{frame}[fragile]
-\frametitle{Conditional breakpoints}
-\end{frame}
-
-\subsection{Breakpoints and variables}
-\begin{frame}[fragile]
-\frametitle{Breakpoints and variables}
-\end{frame}
-
-\subsection{Display and watch the code}
-\begin{frame}[fragile]
-\frametitle{Display and watch the code}
-\end{frame}
-
-\subsection{Repeat the code}
-\begin{frame}[fragile]
-\frametitle{Repeat the code}
+Variables view
 \begin{itemize}
-\item repeat vs go back
-\item you can jump only to a place in stack trace
-\item (the stack of functions that were called up to that point)
+\item watch all related variables
+\item change a value of the variables
 \end{itemize}
+\end{frame}
+
+\subsection{Watch what you want}
+\begin{frame}[fragile]
+\frametitle{Watch what you want}
+\begin{itemize}
+\item detail formatter
+\item logical structure (e.g. HashMap)
+\item watch and display
+\end{itemize}  
+\end{frame}
+
+\subsection{Pause when you want}
+\begin{frame}[fragile]
+\frametitle{Pause when you want}
+\begin{itemize}
+\item on access or modifification of the attribute
+\item on entry or exit of the method
+\item on hit count
+\item on your own condition
+\end{itemize}
+\end{frame}
+
+\subsection{Jump to the frame}
+\begin{frame}[fragile]
+\frametitle{Jump to the frame}
+\begin{itemize}
+\item jump back in your stacktrace (frame)
+\item cannot jump to native frame (or its successor like JUnit)
+  \pause
+\item to workaround this you can use test rule
+\end{itemize}
+\vspace{0.2cm}
 \begin{lstlisting}
-Exception in thread "main" java.lang.RuntimeException
-    at test.stack.trace.SomeClass.methodC(SomeClass.java:18)
-    at test.stack.trace.SomeClass.methodB(SomeClass.java:13)
-    at test.stack.trace.SomeClass.methodA(SomeClass.java:9)
-    at test.stack.trace.SomeClass.main(SomeClass.java:27)
+Statement apply(final Statement base, Description desc) {
+  return new Statement() {
+    @Override
+    public void evaluate() throws Throwable {
+      try {
+        base.evaluate();
+      } catch (Throwable e) {
+        throw e;
+      }
+    }
+  };
+}
 \end{lstlisting}
 \end{frame}
 
 \subsection{Remote debugging}
 \begin{frame}[fragile]
 \frametitle{Remote debugging}
+\begin{lstlisting}
+java -Xdebug -Xnoagent -Djava.compiler=NONE \
+-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8001
+\end{lstlisting}
 \end{frame}
 
 \section{Learning Materials}
 \begin{frame}[fragile]
 \frametitle{Learning Materials}
 \begin{itemize}
+\item Java Debugging with Eclipse - Tutorial\\\url{http://www.vogella.com/tutorials/EclipseDebugging/article.html}
 \item Effective Java Debugging with Eclipse\\\url{http://eclipsesource.com/blogs/2013/01/08/effective-java-debugging-with-eclipse}
-\item Java Debugging with Eclipse - Tutorial\\url{http://www.vogella.com/tutorials/EclipseDebugging/article.html}
+\item 10 Tips on Java Debugging with Eclipse\\\url{https://blog.codecentric.de/en/2013/04/again-10-tips-on-java-debugging-with-eclipse}
 \end{itemize}
 \end{frame}
 
