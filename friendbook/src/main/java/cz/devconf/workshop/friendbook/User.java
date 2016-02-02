@@ -49,6 +49,9 @@ public class User {
 	}
 
 	public void addFriend(User user) {
+		if (FriendBook.INSTANCE.findUser(user.getNickname()) == null) {
+			throw new FriendBookException(user + " is not registered");
+		}
 		this.friends.put(user.getNickname(), FriendshipState.PROPOSED);
 		user.friends.put(this.getNickname(), FriendshipState.REQUESTED);
 	}

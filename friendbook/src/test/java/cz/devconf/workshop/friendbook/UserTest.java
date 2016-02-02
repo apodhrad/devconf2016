@@ -90,6 +90,16 @@ public class UserTest {
 		Assert.assertTrue(johnDoe.getProposedFriends().contains(paulHappy));
 		Assert.assertEquals(1, paulHappy.getRequestedFriends().size());
 		Assert.assertTrue(paulHappy.getRequestedFriends().contains(johnDoe));
+
+		User adamSmile = new User("asmile");
+
+		Exception expectedException = null;
+		try {
+			johnDoe.addFriend(adamSmile);
+		} catch (FriendBookException fbe) {
+			expectedException = fbe;
+		}
+		Assert.assertNotNull(expectedException);
 	}
 
 	@Test
