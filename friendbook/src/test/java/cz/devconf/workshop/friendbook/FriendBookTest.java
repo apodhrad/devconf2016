@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -23,7 +24,7 @@ public class FriendBookTest {
 	private User johnDoe;
 	private User paulHappy;
 
-	@Rule
+	// @Rule
 	public MyRule MyRule = new MyRule();
 
 	// @BeforeClass
