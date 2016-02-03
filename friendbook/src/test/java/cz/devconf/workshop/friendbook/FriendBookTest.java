@@ -11,7 +11,10 @@ import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+
+import cz.devconf.workshop.friendbook.rule.MyRule;
 
 public class FriendBookTest {
 
@@ -19,6 +22,15 @@ public class FriendBookTest {
 
 	private User johnDoe;
 	private User paulHappy;
+
+	@Rule
+	public MyRule MyRule = new MyRule();
+
+	// @BeforeClass
+	public static void loadFromSlowDB() throws Exception {
+		System.out.println("Loading data from a very slow DB....");
+		Thread.sleep(60 * 1000);
+	}
 
 	@Before
 	public void cleanFriendBook() {
@@ -174,10 +186,6 @@ public class FriendBookTest {
 			while ((line = in.readLine()) != null) {
 				actualLines.add(line);
 			}
-			// Assert.assertTrue("jdoe;John;Doe;phappy", in.readLine());
-			// Assert.assertTrue("phappy;Paul;Happy;jdoe", in.readLine());
-			// Assert.assertEquals("asmile;;", in.readLine());
-			// Assert.assertNull(in.readLine());
 		} finally {
 			if (in != null) {
 				in.close();
