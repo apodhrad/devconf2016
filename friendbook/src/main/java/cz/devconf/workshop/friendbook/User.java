@@ -104,15 +104,39 @@ public class User {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof User) {
-			return ((User) obj).getNickname().equals(getNickname());
-		}
-		return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (nickname == null) {
+			if (other.nickname != null)
+				return false;
+		} else if (!nickname.equals(other.nickname))
+			return false;
+		if (surname == null) {
+			if (other.surname != null)
+				return false;
+		} else if (!surname.equals(other.surname))
+			return false;
+		return true;
 	}
 
 	@Override
 	public int hashCode() {
-		return getNickname().hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((nickname == null) ? 0 : nickname.hashCode());
+		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+		return result;
 	}
 
 	public enum FriendshipState {

@@ -37,12 +37,8 @@ public class FriendBookTest {
 	public void cleanFriendBook() {
 		friendBook.clean();
 
-		johnDoe = friendBook.registerUser("jdoe");
-		johnDoe.setName("John");
-		johnDoe.setSurname("Doe");
-		paulHappy = friendBook.registerUser("phappy");
-		paulHappy.setName("Paul");
-		paulHappy.setSurname("Happy");
+		johnDoe = friendBook.registerUser("jdoe", "John", "Doe");
+		paulHappy = friendBook.registerUser("phappy", "Paul", "Happy");
 	}
 
 	@Test
