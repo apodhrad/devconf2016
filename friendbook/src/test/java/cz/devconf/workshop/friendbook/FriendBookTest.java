@@ -100,7 +100,8 @@ public class FriendBookTest {
 
 	@Test
 	public void loadTest() throws IOException {
-		File file = new File("src/test/resources/friendbook-ok.csv");
+		String fileName = System.getProperty("friendbook.filename", "friendbook-ok.csv"); 
+		File file = new File("src/test/resources/" + fileName);
 		friendBook.load(file);
 		Assert.assertEquals(10, friendBook.getUsers().size());
 		User user1 = friendBook.findUser("a1");
