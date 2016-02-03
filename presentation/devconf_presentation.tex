@@ -171,6 +171,7 @@ Statement apply(final Statement base, Description desc) {
     public void evaluate() throws Throwable {
       try {
         base.evaluate();
+        "Breakpoint".toString();
       } catch (Throwable e) {
         throw e;
       }
