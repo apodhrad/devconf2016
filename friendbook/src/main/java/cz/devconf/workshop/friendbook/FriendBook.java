@@ -31,9 +31,6 @@ public class FriendBook {
 	}
 
 	public User registerUser(String nickname, String name, String surname) {
-		if (findUser(nickname) != null) {
-			throw new FriendBookException("User with nickname '" + nickname + "' already exists");
-		}
 		User user = new User(nickname, name, surname);
 		this.users.add(user);
 		return user;

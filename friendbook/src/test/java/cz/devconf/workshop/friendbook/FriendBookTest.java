@@ -11,8 +11,6 @@ import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 
 import cz.devconf.workshop.friendbook.rule.MyRule;
@@ -23,6 +21,7 @@ public class FriendBookTest {
 
 	private User johnDoe;
 	private User paulHappy;
+	private User mikeFunny;
 
 	// @Rule
 	public MyRule MyRule = new MyRule();
@@ -42,22 +41,6 @@ public class FriendBookTest {
 	}
 
 	@Test
-	public void registerUserTest() {
-		User user = friendBook.getUsers().iterator().next();
-		Assert.assertEquals(johnDoe.getName(), user.getName());
-		Assert.assertEquals(johnDoe.getSurname(), user.getSurname());
-		Assert.assertEquals(johnDoe, user);
-
-		Exception expectedException = null;
-		try {
-			friendBook.registerUser(johnDoe.getNickname());
-		} catch (FriendBookException fbe) {
-			expectedException = fbe;
-		}
-		Assert.assertNotNull(expectedException);
-	}
-
-	@Test
 	public void removeUserTest() {
 		friendBook.removeUser(johnDoe);
 		Assert.assertEquals(1, friendBook.getUsers().size());
@@ -69,8 +52,11 @@ public class FriendBookTest {
 
 	@Test
 	public void findUserTest() {
+		mikeFunny = friendBook.registerUser(null, "Mike", "Funny");
+		
 		Assert.assertEquals(johnDoe, friendBook.findUser("jdoe"));
 		Assert.assertEquals(paulHappy, friendBook.findUser("phappy"));
+		Assert.assertEquals(mikeFunny, friendBook.findUser("mfunny"));
 	}
 
 	@Test

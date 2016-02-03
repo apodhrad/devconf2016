@@ -19,9 +19,6 @@ public class User {
 	}
 
 	public User(String nickname, String name, String surname) {
-		if (nickname == null) {
-			throw new IllegalArgumentException("User must have a nickname");
-		}
 		this.nickname = nickname;
 		this.name = name;
 		this.surname = surname;

@@ -4,8 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import cz.devconf.workshop.friendbook.User.FriendshipState;
-
 public class UserTest {
 
 	private FriendBook friendBook = FriendBook.INSTANCE;
@@ -140,11 +138,4 @@ public class UserTest {
 		Assert.assertFalse(user.equals(friendBook));
 	}
 
-	@Test
-	public void friendshipStateTest() {
-		Assert.assertEquals(3, FriendshipState.values().length);
-		FriendshipState.valueOf("PROPOSED");
-		FriendshipState.valueOf("REQUESTED");
-		FriendshipState.valueOf("CONFIRMED");
-	}
 }
