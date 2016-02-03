@@ -1,11 +1,33 @@
-Logical structure
-- HashMap User.friend
+# Pause and watch
+- NPE in findUser()
+- introduce continue, step in, setp over, step return
+- show variables view
+- not exactly what we want
 
-Conditional breakpoint
-- save (with one id = "") and load (id will be null)
+# Pause when you want
+- on an exception
+- put a condition in User constructor
+- sysout in the condition expression
 
-Exceptional breakpoint
+
+# Watch what you want
+- introduce logical structure (e.g. HashMap User.friends)
+- introduce display and watch
 - wrong hashcode => immutable objects
+- detail formatter on HashSet
 
-Display
-- NPE
+StringBuffer result = new StringBuffer();
+for (Object obj: this) {
+	result.append(obj.toString()).append("#").append(obj.hashCode()).append("\n");
+}
+return result.toString();
+
+# Jump to the frame
+- general usage
+- continue with the previous example and mention how many times we exec the code
+- but what if the BeforeClass takes too long?
+- add test rule
+
+# Remote debugging
+- mvn clean verify -DdebugPort=8001
+- fix system property friendbook.filename in pom.xml
