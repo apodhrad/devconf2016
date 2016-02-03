@@ -20,7 +20,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
 	  <systemProperties combine.children="append">
-	    <friendbook.filename>friendbook-ok.csv</friendbook.filename>
+	    <friendbook.filename>friendbook-error.csv</friendbook.filename>
 	  </systemProperties>
 	</configuration>
       </plugin>
