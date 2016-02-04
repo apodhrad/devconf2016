@@ -25,8 +25,6 @@ public class UserTest {
 
 	@Test
 	public void userTest() {
-		Exception expectedException;
-
 		User user = new User("a");
 		Assert.assertEquals("a", user.getNickname());
 		Assert.assertNull(user.getName());
@@ -38,14 +36,6 @@ public class UserTest {
 		Assert.assertEquals("b", user.getName());
 		Assert.assertEquals("c", user.getSurname());
 		Assert.assertEquals("User [nickname = a, name = b, surname = c]", user.toString());
-
-		expectedException = null;
-		try {
-			new User(null);
-		} catch (IllegalArgumentException iae) {
-			expectedException = iae;
-		}
-		Assert.assertNotNull(expectedException);
 
 		user = new User("a", null, null);
 		Assert.assertNull(user.getName());
@@ -69,15 +59,6 @@ public class UserTest {
 		Assert.assertNull(user.getName());
 		Assert.assertNull(user.getSurname());
 		Assert.assertEquals("User [nickname = a, name = null, surname = null]", user.toString());
-
-		expectedException = null;
-		try {
-			new User(null, "b", "c");
-		} catch (IllegalArgumentException iae) {
-			expectedException = iae;
-		}
-		Assert.assertNotNull(expectedException);
-
 	}
 
 	@Test
