@@ -96,7 +96,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [nickname = " + nickname + ", name = " + name + ", surname = " + surname + "]";
+		return "User [nickname = " + nickname + "]";
 	}
 
 	@Override

@@ -41,8 +41,7 @@
 \frametitle{What is debugging}
 \begin{itemize}
 \item process of finding and fixing bugs
-\item usually time consuming
-\item how would you debug this? (npe at line 3)
+\item example: NullPointerException at line 3
 \vspace{0.2cm}
 \begin{lstlisting}[numbers=left]
 public User findUser(String nickname) {
@@ -116,7 +115,7 @@ public User findUser(String nickname) {
 \frametitle{Pause and watch}
 Breakpoints can be set
 \begin{itemize}
-\item on a line
+\item on a line with code
 \item on an attribute
 \item on a method
 \item on a class
@@ -143,9 +142,9 @@ Variables view
 \begin{frame}[fragile]
 \frametitle{Watch what you want}
 \begin{itemize}
+\item specify what you want to see by detail formatters
 \item display and watch parts of the code
 \item improve variables view by logical structure (e.g. HashMap)
-\item specify what you want to see by detail formatters
 \end{itemize}  
 \end{frame}
 
