@@ -35,7 +35,7 @@ public class UserTest {
 		user.setSurname("c");
 		Assert.assertEquals("b", user.getName());
 		Assert.assertEquals("c", user.getSurname());
-		Assert.assertEquals("User [nickname = a, name = b, surname = c]", user.toString());
+		Assert.assertEquals("User [nickname = a]", user.toString());
 
 		user = new User("a", null, null);
 		Assert.assertNull(user.getName());
@@ -58,7 +58,7 @@ public class UserTest {
 		user.setSurname(null);
 		Assert.assertNull(user.getName());
 		Assert.assertNull(user.getSurname());
-		Assert.assertEquals("User [nickname = a, name = null, surname = null]", user.toString());
+		Assert.assertEquals("User [nickname = a]", user.toString());
 	}
 
 	@Test
