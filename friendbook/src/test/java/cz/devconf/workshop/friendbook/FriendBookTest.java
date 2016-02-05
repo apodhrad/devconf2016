@@ -30,7 +30,7 @@ public class FriendBookTest {
 	// @BeforeClass
 	public static void loadFromSlowDB() throws Exception {
 		System.out.println("Loading data from a very slow DB....");
-		Thread.sleep(60 * 1000);
+		Thread.sleep(10 * 1000);
 	}
 
 	@Before

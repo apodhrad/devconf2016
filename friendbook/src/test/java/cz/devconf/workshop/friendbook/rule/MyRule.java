@@ -13,7 +13,7 @@ public class MyRule implements TestRule {
 			public void evaluate() throws Throwable {
 				try {
 					base.evaluate();
-					"Just a place for a breakpoint".toString();
+					System.out.println("Place a breakpoint here");
 				} catch (Throwable e) {
 					throw e;
 				}
