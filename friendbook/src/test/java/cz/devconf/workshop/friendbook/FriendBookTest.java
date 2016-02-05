@@ -2,7 +2,6 @@ package cz.devconf.workshop.friendbook;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collection;
@@ -11,6 +10,8 @@ import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 
 import cz.devconf.workshop.friendbook.rule.MyRule;
@@ -120,30 +121,6 @@ public class FriendBookTest {
 		Assert.assertFalse(user2.hasFriend(user6));
 		Assert.assertFalse(user2.hasFriend(user7));
 		Assert.assertTrue(user2.hasFriend(user8));
-	}
-
-	@Test
-	public void loadWithErrorTest() throws IOException {
-		File file = new File("src/test/resources/friendbook-error.csv");
-		Exception expectedException = null;
-		try {
-			friendBook.load(file);
-		} catch (FriendBookException fbe) {
-			expectedException = fbe;
-		}
-		Assert.assertNotNull(expectedException);
-	}
-
-	@Test
-	public void loadWithExceptionTest() throws IOException {
-		File file = new File("src/test/resources/friendbook-xyz.csv");
-		Exception expectedException = null;
-		try {
-			friendBook.load(file);
-		} catch (FileNotFoundException fnfe) {
-			expectedException = fnfe;
-		}
-		Assert.assertNotNull(expectedException);
 	}
 
 	@Test
